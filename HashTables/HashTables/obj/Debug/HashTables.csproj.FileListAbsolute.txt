@@ -1,2 +1,7 @@
 G:\Semester1\MATH282\Projects\HashTables\HashTables\bin\Debug\HashTables.exe.config
 G:\homework_reps\cosc286_rep\HashTables\HashTables\bin\Debug\HashTables.exe.config
+G:\homework_reps\cosc286_rep\HashTables\HashTables\bin\Debug\HashTables.exe
+G:\homework_reps\cosc286_rep\HashTables\HashTables\bin\Debug\HashTables.pdb
+G:\homework_reps\cosc286_rep\HashTables\HashTables\obj\Debug\HashTables.csprojResolveAssemblyReference.cache
+G:\homework_reps\cosc286_rep\HashTables\HashTables\obj\Debug\HashTables.exe
+G:\homework_reps\cosc286_rep\HashTables\HashTables\obj\Debug\HashTables.pdb

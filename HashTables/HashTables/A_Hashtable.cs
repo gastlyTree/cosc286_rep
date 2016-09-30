@@ -19,7 +19,7 @@ namespace HashTables
         protected object[] oDataArray;
 
         //store the number of elements in the array
-        private int iCount;
+        protected int iCount;
 
         //Load Factor - used to track the maximum percentage full that we will
         //allow  the array to fill.
@@ -27,7 +27,7 @@ namespace HashTables
         protected const double dLoadFactor = 0.72;
 
         //Collision count - mostly for stats 
-        private int iNumCollisions = 0;
+        protected int iNumCollisions = 0;
 
         #region Properties
         public int Count

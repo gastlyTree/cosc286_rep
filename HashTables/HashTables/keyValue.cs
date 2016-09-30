@@ -36,5 +36,11 @@ namespace HashTables
                 return vValue;
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            keyValue<K, V> kv = (keyValue<K, V>)obj;
+            return this.Key.CompareTo(kv.Key) == 0;
+        }
     }
 }

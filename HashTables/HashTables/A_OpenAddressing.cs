@@ -35,10 +35,47 @@ namespace HashTables
             int iPositionToAdd = -1;
 
             //Loop until we encounter a null (end of collision chain)
-            while(oDataArray[iCurrentLocation] != null)
+            while (oDataArray[iCurrentLocation] != null)
             {
+                //if the current value is a key-value pair
+                if (oDataArray[iCurrentLocation].GetType() == typeof(keyValue<K, V>))
+                {
+                    //Check to see if the current value is the same key
+                    //as the value we are adding
+                    keyValue<K, V> kv = (keyValue<K, V>)oDataArray[iCurrentLocation];
+                    if (kv.Key.CompareTo(key) == 0)
+                    {
+                        throw new ApplicationException("Item already exists");
+
+                    }
+                }
+                else //its a tombstone
+                {
+                    if (iPositionToAdd == -1)
+                    {
+                        iPositionToAdd = iCurrentLocation;
+                    }
+
+                }
+                //Increment to the next location
+                iCurrentLocation = iInitialHash + GetIncrement(iAttempt++, key);
+                //Loop back up to the top of the table, if we fall off the bottom
+                iCurrentLocation %= HTSize;
+
+                iNumCollisions++;
 
             }
+            //if we have not found a position to add
+            if(iPositionToAdd == -1)
+            {
+                //Initial hash location was null
+                iPositionToAdd = iInitialHash;
+            }
+
+            //add the key-value pair
+            keyValue<K, V> kvNew = new keyValue<K, V>(key, vValue);
+            oDataArray[iPositionToAdd] = kvNew;
+            iCount++;
 
 
         }
@@ -73,8 +110,8 @@ namespace HashTables
                     }
                     else
                     {
-                        KeyValue<K, V> kv = (KeyValue<K, V>)oDataArray[i];
-                        sb.Append(kv.Value.ToString());
+                        keyValue<K, V> kv = (keyValue<K, V>)oDataArray[i];
+                        sb.Append(kv.Value.ToString() + "IH = " + HashFunction(kv.Key));
                     }
 
                 }
