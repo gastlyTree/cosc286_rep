@@ -1,0 +1,6 @@
+G:\Semester1\MATH282\Projects\Delegates_A\Delegates_A\bin\Debug\Delegates_A.exe.config
+G:\Semester1\MATH282\Projects\Delegates_A\Delegates_A\bin\Debug\Delegates_A.exe
+G:\Semester1\MATH282\Projects\Delegates_A\Delegates_A\bin\Debug\Delegates_A.pdb
+G:\Semester1\MATH282\Projects\Delegates_A\Delegates_A\obj\Debug\Delegates_A.csprojResolveAssemblyReference.cache
+G:\Semester1\MATH282\Projects\Delegates_A\Delegates_A\obj\Debug\Delegates_A.exe
+G:\Semester1\MATH282\Projects\Delegates_A\Delegates_A\obj\Debug\Delegates_A.pdb
