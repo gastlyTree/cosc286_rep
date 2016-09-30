@@ -1,0 +1,8 @@
+G:\Semester1\COSC286\Projects\DataStructures\LinkedList\bin\Debug\LinkedList.exe.config
+G:\Semester1\COSC286\Projects\DataStructures\LinkedList\bin\Debug\LinkedList.exe
+G:\Semester1\COSC286\Projects\DataStructures\LinkedList\bin\Debug\LinkedList.pdb
+G:\Semester1\COSC286\Projects\DataStructures\LinkedList\bin\Debug\DataStructuresCommon.dll
+G:\Semester1\COSC286\Projects\DataStructures\LinkedList\bin\Debug\DataStructuresCommon.pdb
+G:\Semester1\COSC286\Projects\DataStructures\LinkedList\obj\Debug\LinkedList.csprojResolveAssemblyReference.cache
+G:\Semester1\COSC286\Projects\DataStructures\LinkedList\obj\Debug\LinkedList.exe
+G:\Semester1\COSC286\Projects\DataStructures\LinkedList\obj\Debug\LinkedList.pdb

@@ -1,0 +1,5 @@
+G:\Semester1\COSC286\Projects\DataStructures\DataStructuresCommon\bin\Debug\DataStructuresCommon.dll
+G:\Semester1\COSC286\Projects\DataStructures\DataStructuresCommon\bin\Debug\DataStructuresCommon.pdb
+G:\Semester1\COSC286\Projects\DataStructures\DataStructuresCommon\obj\Debug\DataStructuresCommon.csprojResolveAssemblyReference.cache
+G:\Semester1\COSC286\Projects\DataStructures\DataStructuresCommon\obj\Debug\DataStructuresCommon.dll
+G:\Semester1\COSC286\Projects\DataStructures\DataStructuresCommon\obj\Debug\DataStructuresCommon.pdb

@@ -1,0 +1,4 @@
+G:\Semester1\COSC286\Projects\DataStructures\DataStructuresCommon\bin\Release\DataStructuresCommon.dll
+G:\Semester1\COSC286\Projects\DataStructures\DataStructuresCommon\bin\Release\DataStructuresCommon.pdb
+G:\Semester1\COSC286\Projects\DataStructures\DataStructuresCommon\obj\Release\DataStructuresCommon.dll
+G:\Semester1\COSC286\Projects\DataStructures\DataStructuresCommon\obj\Release\DataStructuresCommon.pdb
