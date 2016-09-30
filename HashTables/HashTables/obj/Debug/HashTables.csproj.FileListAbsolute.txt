@@ -1,1 +1,2 @@
 G:\Semester1\MATH282\Projects\HashTables\HashTables\bin\Debug\HashTables.exe.config
+G:\homework_reps\cosc286_rep\HashTables\HashTables\bin\Debug\HashTables.exe.config
