@@ -67,7 +67,7 @@ namespace HashTables
         {
             //All objects in the C# world have a GetHashCode method
             //Note that later on, our key can override the GethashCode method.
-            return Math.Abs(key.GetHashCode()%HTSize);
+            return Math.Abs(key.GetHashCode() % HTSize);
         }
 
         #endregion

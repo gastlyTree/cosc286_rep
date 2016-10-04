@@ -69,7 +69,7 @@ namespace HashTables
             if(iPositionToAdd == -1)
             {
                 //Initial hash location was null
-                iPositionToAdd = iInitialHash;
+                iPositionToAdd = iCurrentLocation;
             }
 
             //add the key-value pair
@@ -77,7 +77,44 @@ namespace HashTables
             oDataArray[iPositionToAdd] = kvNew;
             iCount++;
 
+            if(IsOverLoaded())
+            {
+                ExpandHashTable();
+            }
 
+        }
+
+        private void ExpandHashTable()
+        {
+            //Create a referance to the existing data
+            object[] oOldArray = oDataArray;
+            //Create a new array, with the next prime number size
+            oOldArray = new object[pn.getNextPrime()];
+            //reset the attributes
+            iCount = 0;
+            iNumCollisions = 0;
+
+            //loop through the existing table a re-hash each item
+            for (int i = 0; i < oOldArray.Length; i++)
+            {
+                if(oOldArray[i] != null)
+                {
+                    //if it is a KV pair 
+                    if(oOldArray[i].GetType() == typeof(keyValue<K,V>))
+                    {
+                        //get a referance to the current key value pair
+                        keyValue<K, V> kv = (keyValue<K,V>)oOldArray[i];
+                        this.Add(kv.Key, kv.Value);
+                    }
+                }
+            }
+
+
+        }
+
+        private bool IsOverLoaded()
+        {
+            return iCount / (Double) HTSize > dLoadFactor;
         }
 
         public override void Remove(K key)
@@ -87,7 +124,39 @@ namespace HashTables
 
         public override V Get(K key)
         {
-            throw new NotImplementedException();
+            //Get the hash code
+            int iInitialHash = HashFunction(key);
+            //Current location we are looking at in the collision chain
+            int iCurrentLocation = iInitialHash;
+            //how many attempts were made to increment
+            int iAttempt = 1;
+            //indicator that the item was found
+            bool found = false;
+
+            while (oDataArray[iCurrentLocation] != null)
+            {
+                //if the current value is a key-value pair
+                if (oDataArray[iCurrentLocation].GetType() == typeof(keyValue<K, V>))
+                {
+                    //Check to see if the current value is the same key
+                    //as the value we are adding
+                    keyValue<K, V> kv = (keyValue<K, V>)oDataArray[iCurrentLocation];
+                    if (kv.Key.CompareTo(key) == 0)
+                    {
+                        found = true;
+
+                    }
+                }
+
+                //Increment to the next location
+                iCurrentLocation = iInitialHash + GetIncrement(iAttempt++, key);
+                //Loop back up to the top of the table, if we fall off the bottom
+                iCurrentLocation %= HTSize;
+
+                iNumCollisions++;
+
+            }
+
         }
 
         public override IEnumerator<V> GetEnumerator()

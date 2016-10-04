@@ -5,3 +5,9 @@ G:\homework_reps\cosc286_rep\HashTables\HashTables\bin\Debug\HashTables.pdb
 G:\homework_reps\cosc286_rep\HashTables\HashTables\obj\Debug\HashTables.csprojResolveAssemblyReference.cache
 G:\homework_reps\cosc286_rep\HashTables\HashTables\obj\Debug\HashTables.exe
 G:\homework_reps\cosc286_rep\HashTables\HashTables\obj\Debug\HashTables.pdb
+G:\git_reps\cosc286_rep\HashTables\HashTables\bin\Debug\HashTables.exe.config
+G:\git_reps\cosc286_rep\HashTables\HashTables\obj\Debug\HashTables.exe
+G:\git_reps\cosc286_rep\HashTables\HashTables\obj\Debug\HashTables.pdb
+G:\git_reps\cosc286_rep\HashTables\HashTables\bin\Debug\HashTables.exe
+G:\git_reps\cosc286_rep\HashTables\HashTables\bin\Debug\HashTables.pdb
+G:\git_reps\cosc286_rep\HashTables\HashTables\obj\Debug\HashTables.csprojResolveAssemblyReference.cache

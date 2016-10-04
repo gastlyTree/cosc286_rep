@@ -11,11 +11,11 @@ namespace HashTables
 
         public static void testAdd(A_Hashtable<int, string> ht)
         {
-            ht.Add(1234, "Rob");
-            ht.Add(1334, "Bob");
-            ht.Add(1434, "Dob");
-            ht.Add(1224, "Mob");
-            ht.Add(1244, "Ron");
+            ht.Add(12, "Rob");
+            ht.Add(134, "Bob");
+            ht.Add(1, "Dob");
+            ht.Add(1224, "nathan");
+            ht.Add(14, "Nicholas");
 
             Console.WriteLine(ht.ToString());
         }
