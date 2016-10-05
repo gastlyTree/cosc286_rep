@@ -48,6 +48,7 @@
     <Compile Include="I_Hashtable.cs" />
     <Compile Include="keyValue.cs" />
     <Compile Include="Linear.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="PrimeNumber.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

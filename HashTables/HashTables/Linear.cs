@@ -12,8 +12,8 @@ namespace HashTables
     {
         protected override int GetIncrement(int iAttempt, K key)
         {
-            int iIncrement = 1;
-            return iIncrement + iAttempt;
+            int iIncrement = 3;
+            return iIncrement * iAttempt;
         }
     }
 }

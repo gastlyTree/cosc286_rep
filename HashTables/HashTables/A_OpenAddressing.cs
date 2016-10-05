@@ -11,13 +11,10 @@ namespace HashTables
         where V : IComparable<V>
     {
 
-        // used to get the increment value (varies based on the implementation
         protected abstract int GetIncrement(int iAttempt, K key);
 
-        //Local instance of the prime number class
         private PrimeNumber pn = new PrimeNumber();
-
-        //constructor to set up the hashtable array
+ 
         public A_OpenAddressing()
         {
             oDataArray = new object[pn.getNextPrime()];
@@ -89,7 +86,7 @@ namespace HashTables
             //Create a referance to the existing data
             object[] oOldArray = oDataArray;
             //Create a new array, with the next prime number size
-            oOldArray = new object[pn.getNextPrime()];
+            oDataArray = new object[pn.getNextPrime()];
             //reset the attributes
             iCount = 0;
             iNumCollisions = 0;
@@ -119,7 +116,46 @@ namespace HashTables
 
         public override void Remove(K key)
         {
-            throw new NotImplementedException();
+            //Get the hash code
+            int iInitialHash = HashFunction(key);
+            //Current location we are looking at in the collision chain
+            int iCurrentLocation = iInitialHash;
+            //how many attempts were made to increment
+            int iAttempt = 1;
+            //indicator that the item was found
+            bool iFound = false;
+
+            while (oDataArray[iCurrentLocation] != null && !iFound)
+            {
+                //if the current value is a key-value pair
+                if (oDataArray[iCurrentLocation].GetType() == typeof(keyValue<K, V>))
+                {
+
+                    if (oDataArray[iCurrentLocation].GetType() == typeof(keyValue<K, V>))
+                    {
+                        //it is a key value
+                        keyValue<K, V> kv = (keyValue<K, V>)oDataArray[iCurrentLocation];
+                        //Is it the key value we are looking for
+                        if (kv.Key.CompareTo(key) == 0)
+                        {
+                            //indicate that it is found and overwrite it with a tombstone
+                            iFound = true;
+                            Tombstone tStone = new Tombstone();
+                            oDataArray[iCurrentLocation] = tStone;
+                            iCount--;
+                        }
+                    }
+                    //increment to next location
+                    iCurrentLocation = iInitialHash + GetIncrement(iAttempt++, key);
+                    iCurrentLocation %= HTSize;
+                }
+                iNumCollisions++;
+
+            }
+            if (!iFound)
+            {
+                throw new ApplicationException("Key does no exist in the table");
+            }
         }
 
         public override V Get(K key)
@@ -131,31 +167,40 @@ namespace HashTables
             //how many attempts were made to increment
             int iAttempt = 1;
             //indicator that the item was found
-            bool found = false;
+            bool iFound = false;
 
-            while (oDataArray[iCurrentLocation] != null)
+            V vReturn = default(V);
+
+            while (oDataArray[iCurrentLocation] != null && !iFound)
             {
                 //if the current value is a key-value pair
                 if (oDataArray[iCurrentLocation].GetType() == typeof(keyValue<K, V>))
                 {
-                    //Check to see if the current value is the same key
-                    //as the value we are adding
-                    keyValue<K, V> kv = (keyValue<K, V>)oDataArray[iCurrentLocation];
-                    if (kv.Key.CompareTo(key) == 0)
+                   
+                    if (oDataArray[iCurrentLocation].GetType() == typeof (keyValue<K,V>))
                     {
-                        found = true;
-
+                        //it is a key value
+                        keyValue<K, V> kv = (keyValue<K, V>)oDataArray[iCurrentLocation];
+                        //Is it the key value we are looking for
+                        if (kv.Key.CompareTo(key) == 0)
+                        {
+                            //indicate that it is found and set the return value
+                            iFound = true;
+                            vReturn = kv.Value;
+                        }
                     }
+                    //increment to next location
+                    iCurrentLocation = iInitialHash + GetIncrement(iAttempt++, key);
+                    iCurrentLocation %= HTSize;
                 }
-
-                //Increment to the next location
-                iCurrentLocation = iInitialHash + GetIncrement(iAttempt++, key);
-                //Loop back up to the top of the table, if we fall off the bottom
-                iCurrentLocation %= HTSize;
-
                 iNumCollisions++;
 
             }
+            if (!iFound)
+            {
+                throw new ApplicationException("Key does no exist in the table");
+            }
+            return vReturn;
 
         }
 
@@ -163,7 +208,6 @@ namespace HashTables
         {
             throw new NotImplementedException();
         }
-
 
         public override string ToString()
         {
@@ -180,7 +224,7 @@ namespace HashTables
                     else
                     {
                         keyValue<K, V> kv = (keyValue<K, V>)oDataArray[i];
-                        sb.Append(kv.Value.ToString() + "IH = " + HashFunction(kv.Key));
+                        sb.Append(kv.Value.ToString() + " IH = " + HashFunction(kv.Key));
                     }
 
                 }
