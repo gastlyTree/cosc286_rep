@@ -24,7 +24,7 @@ namespace HashTables
             //Recall that the load factor must be 50% max to avoid
             //potential endless loops. This problem only applies to
             //quadratic implementations.
-            this.dLoadFactor = 0.72;
+            this.dLoadFactor = 0.5;
         }
 
     }

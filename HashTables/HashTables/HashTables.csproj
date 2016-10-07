@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="A_Hashtable.cs" />
     <Compile Include="A_OpenAddressing.cs" />
+    <Compile Include="Chaining.cs" />
     <Compile Include="DoubleHash.cs" />
     <Compile Include="I_Hashtable.cs" />
     <Compile Include="keyValue.cs" />
