@@ -24,7 +24,7 @@ namespace HashTables
         //Load Factor - used to track the maximum percentage full that we will
         //allow  the array to fill.
         //The factor 0.72 is used by Microsoft for their hashtable.
-        protected const double dLoadFactor = 0.72;
+        protected double dLoadFactor = 0.72;
 
         //Collision count - mostly for stats 
         protected int iNumCollisions = 0;

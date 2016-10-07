@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace HashTables
 {
-    public class Linear<K,V>: A_OpenAddressing<K,V>
+    class DoubleHash<K, V> : A_OpenAddressing<K, V>
         where K : IComparable<K>
         where V : IComparable<V>
     {
         protected override int GetIncrement(int iAttempt, K key)
         {
-            int iIncrement = 1;
-            return iIncrement * iAttempt;
+            return (1 + Math.Abs(key.GetHashCode()) % (HTSize - 1)) * iAttempt;
         }
     }
 }

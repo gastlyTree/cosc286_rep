@@ -53,12 +53,12 @@ namespace HashTables
                  *from a low of 8*48 = 384 to a high of 9*57 = 513.  This means that the maximum number
                  *unique hash locations is 513-384+1 = 130, and will likely be much less.
                  */
-                //iHashCode += (int)cChars[i];
+                iHashCode += (int)cChars[i];
 
                 /*This modification multiplies each ascii value by a power of 9 according to its position
                  *in the ssn.  For this set of data, a much better distribution occurs.
                  */
-                iHashCode += ((int)cChars[i]) * (int)Math.Pow(9, i);
+                //iHashCode += ((int)cChars[i]) * (int)Math.Pow(9, i);
             }
 
             return iHashCode;

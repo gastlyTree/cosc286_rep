@@ -51,7 +51,7 @@ namespace HashTables
         static void TestHT(A_Hashtable<Person, Person> ht)
         {
             LoadDataFromFile(ht);
-            Console.WriteLine(ht);
+            //Console.WriteLine(ht);
             Console.WriteLine("Hash table type " + ht.GetType().ToString());
             Console.WriteLine("# of People = " + ht.Count);
             Console.WriteLine("Number of collisions: " + ht.NumCollisions + "\n");
@@ -90,12 +90,18 @@ namespace HashTables
 
         static void Main(string[] args)
         {
-            Linear<int, string> ht = new Linear<int, string>();
-            testAdd(ht);
-            testRemove(ht);
+            //Linear<int, string> ht = new Linear<int, string>();
+            //testAdd(ht);
+            //testRemove(ht);
 
-            //Linear<Person, Person> ht = new Linear<Person, Person>();
-            //TestHT(ht);
+            Linear<Person, Person> htLinear = new Linear<Person, Person>();
+            TestHT(htLinear);
+
+            Quadratic<Person, Person> htQuad = new Quadratic<Person, Person>();
+            TestHT(htQuad);
+
+            DoubleHash<Person, Person> htDoub = new DoubleHash<Person, Person>();
+            TestHT(htDoub);
         }
     }
 }
