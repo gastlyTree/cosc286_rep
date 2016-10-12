@@ -94,14 +94,14 @@ namespace HashTables
             //testAdd(ht);
             //testRemove(ht);
 
-            Linear<Person, Person> htLinear = new Linear<Person, Person>();
-            TestHT(htLinear);
+            //Linear<Person, Person> htLinear = new Linear<Person, Person>();
+            //TestHT(htLinear);
 
-            Quadratic<Person, Person> htQuad = new Quadratic<Person, Person>();
-            TestHT(htQuad);
+            //Quadratic<Person, Person> htQuad = new Quadratic<Person, Person>();
+            //TestHT(htQuad);
 
-            DoubleHash<Person, Person> htDoub = new DoubleHash<Person, Person>();
-            TestHT(htDoub);
+            //DoubleHash<Person, Person> htDoub = new DoubleHash<Person, Person>();
+            //TestHT(htDoub);
         }
     }
 }

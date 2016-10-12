@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,12 +38,122 @@ namespace HashTables
         
         public override void Add(K key, V vValue)
         {
-            throw new NotImplementedException();
+            //Determine the intitial position in the hash table
+            int iInitialHash = HashFunction(key);
+            //Create a key value pair object with the data passed in
+            keyValue<K, V> kv = new keyValue<K, V>(key, vValue);
+
+            //get a reference to the arraylist
+            ArrayList alCurrent = null;
+
+            //If the hashcode location does not contain an arraylist
+            if(oDataArray[iInitialHash] == null)
+            {
+                alCurrent = new ArrayList();
+                //instantiate a new arraylist
+                oDataArray[iInitialHash] = alCurrent;
+                //Increment the bucket count
+                iBucketCount++;
+            }
+            else
+            {
+                //reference to the exsiting arraylist
+                alCurrent = (ArrayList)oDataArray[iInitialHash];
+
+                //If the current arraylist already contains a keyvalue with
+                //the same key
+                if(alCurrent.Contains(kv))
+                {
+                    throw new ApplicationException("Key already exists in the hashtable");
+                }
+
+                iNumCollisions++;
+            }
+
+            //Add the kv into the current arrayList
+            alCurrent.Add(kv);
+            //increment the count
+            iCount++;
+
+            //expand the hash table, if the current hashtable
+            //is overloaded
+            if(IsOverLoaded())
+            {
+                ExpandHashTable();
+            }
+
         }
 
+        private bool IsOverLoaded()
+        {
+            //Cst to a double so we don't do integer division
+            return (double)iBucketCount / HTSize > dLoadFactor;
+        }
+
+        private void ExpandHashTable()
+        {
+            //Create a referance to the existing data
+            object[] oOldArray = oDataArray;
+            //Create a new array, with the next prime number size
+            oDataArray = new object[HTSize * 2];
+            //reset the attributes
+            iCount = 0;
+            iBucketCount = 0;
+            iNumCollisions = 0;
+
+            for (int i = 0; i < oOldArray.Length; i++)
+            {
+                if(oDataArray[i] != null)
+                {
+                    //Get reference to the array list
+                    ArrayList alCurrent = (ArrayList)oOldArray[i];
+                    //Loop through the arraylist
+                    foreach(keyValue<K,V> kv in alCurrent)
+                    {
+                        //Add the key value pair tothe new array
+                        Add(kv.Key, kv.Value);
+                    }
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Returns the value(v) associated with the key(K)
+        /// throws an exception if not found
+        /// </summary>
+        /// <param name="key">The key of the value you want to get</param>
+        /// <returns>The value associated with the given key</returns>
         public override V Get(K key)
         {
-            throw new NotImplementedException();
+            V vReturn = default(V);
+
+            //Determine the intitial position in the hash table
+            int iHashCode = HashFunction(key);
+
+            //get a reference to the arraylist
+            ArrayList alCurrent = (ArrayList)oDataArray[iHashCode];
+            //index of the value in the arraylist
+            int iIndexOfValue = -1;
+            if (oDataArray[iHashCode] != null)
+            {
+                //Get the item's index in the arraylist(returns -1 if not found)
+                iIndexOfValue = alCurrent.IndexOf(new keyValue<K, V>(key, default(V)));
+                //if the item is in the arraylist
+                if(iIndexOfValue >=0)
+                {
+                    //Index into the arraylist to get the key/value pair object
+                    //return it's value
+                    vReturn = ((keyValue<K,V>)alCurrent[iIndexOfValue]).Value;
+                }
+            }
+            //if the value was not found
+            if(iIndexOfValue == -1)
+            {
+                throw new ApplicationException("The key does not exist in the HashTable");
+            }
+
+            return vReturn;
         }
 
         public override IEnumerator<V> GetEnumerator()
@@ -52,7 +163,34 @@ namespace HashTables
 
         public override void Remove(K key)
         {
-            throw new NotImplementedException();
+            //get the hash code for this key
+            int iHashCode = HashFunction(key);
+
+            //get a reference to the arraylist
+            ArrayList alCurrent = (ArrayList)oDataArray[iHashCode];
+            //index of the value in the arraylist
+            int iIndexOfValue = -1;
+            if (alCurrent != null)
+            {
+                //Get the item's index in the arraylist(returns -1 if not found)
+                iIndexOfValue = alCurrent.IndexOf(new keyValue<K, V>(key, default(V)));
+                //if the item is in the arraylist
+                if (iIndexOfValue >= 0)
+                {
+                    alCurrent.RemoveAt(iIndexOfValue);
+
+                    if (alCurrent.Count == 0)
+                    {
+                        oDataArray[iHashCode] = null;
+                        iBucketCount--;
+                    }
+                }
+            }
+            //if the value was not found
+            if (iIndexOfValue == -1)
+            {
+                throw new ApplicationException("The key does not exist in the HashTable");
+            }
         }
     }
 }
