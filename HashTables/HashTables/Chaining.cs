@@ -156,11 +156,6 @@ namespace HashTables
             return vReturn;
         }
 
-        public override IEnumerator<V> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Remove(K key)
         {
             //get the hash code for this key
@@ -192,5 +187,87 @@ namespace HashTables
                 throw new ApplicationException("The key does not exist in the HashTable");
             }
         }
+
+        #region Enumerator Implementations
+
+        public override IEnumerator<V> GetEnumerator()
+        {
+            return new ChainingEnum(this);
+        }
+
+        private class ChainingEnum : IEnumerator<V>
+        {
+            Chaining<K, V> ht;
+            keyValue<K, V> kv = null;
+            ArrayList alCurrent;
+            int iArrayListIndex = 0;
+            int iCurrentBucket = -1;
+
+            public ChainingEnum(Chaining<K, V> ht)
+            {
+                this.ht = ht;
+            }
+
+            public V Current
+            {
+                get
+                {
+                    return kv.Value;
+                }
+            }
+
+            object IEnumerator.Current
+            {
+                get
+                {
+                    return kv.Value;
+                }
+            }
+
+            public void Dispose()
+            {
+                ht = null;
+            }
+
+            public bool MoveNext()
+            {
+                //Could we move or not
+                bool bFound = false;
+
+                //Move to the next bucket
+                iCurrentBucket++;
+
+                //while not found and not at the end
+                while (!bFound && iCurrentBucket < ht.HTSize)
+                {
+                    if (ht.oDataArray[iCurrentBucket] == null ||
+                        ht.oDataArray[iCurrentBucket].GetType() == typeof(Tombstone))
+                    {
+                        iCurrentBucket++;
+                    }
+                    else
+                    {
+                        alCurrent = (ArrayList)ht.oDataArray[iCurrentBucket];
+                        while(iArrayListIndex < alCurrent.Count)
+                        {
+                            kv = (keyValue<K, V>)alCurrent[iArrayListIndex];
+                        }
+
+                        bFound = true;
+
+                    }
+                }
+
+                return bFound;
+            }
+
+            public void Reset()
+            {
+                iCurrentBucket = -1;
+                kv = null;
+            }
+        }
+
+        #endregion
     }
 }

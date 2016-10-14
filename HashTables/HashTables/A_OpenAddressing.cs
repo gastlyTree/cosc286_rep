@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -204,11 +205,6 @@ namespace HashTables
 
         }
 
-        public override IEnumerator<V> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -232,5 +228,81 @@ namespace HashTables
             }
             return sb.ToString();
         }
+
+        #region Enumerator Implementations
+
+        public override IEnumerator<V> GetEnumerator()
+        {
+            return new OpenAddressingEnum(this);
+        }
+
+        private class OpenAddressingEnum : IEnumerator<V>
+        {
+            A_OpenAddressing<K, V> ht;
+            keyValue<K, V> kv = null;
+            int iCurrentBucket = -1;
+           
+            public OpenAddressingEnum(A_OpenAddressing<K,V> ht)
+            {
+                this.ht = ht;
+            }
+
+            public V Current
+            {
+                get
+                {
+                    return kv.Value;
+                }
+            }
+
+            object IEnumerator.Current
+            {
+                get
+                {
+                    return kv.Value;
+                }
+            }
+
+            public void Dispose()
+            {
+                ht = null;
+            }
+
+            public bool MoveNext()
+            {
+                //Could we move or not
+                bool bFound = false;
+
+                //Move to the next bucket
+                iCurrentBucket++;
+                
+                //while no found and not at the end
+                while(!bFound && iCurrentBucket < ht.HTSize)
+                {
+                    if(ht.oDataArray[iCurrentBucket] == null ||
+                        ht.oDataArray[iCurrentBucket].GetType() == typeof(Tombstone))
+                    {
+                        iCurrentBucket++;
+                    }
+                    else
+                    {
+                        bFound = true;
+                        //set the current key value pair reference
+                        kv = (keyValue<K, V>)ht.oDataArray[iCurrentBucket];
+                    }
+                }
+
+                return bFound;
+            }
+
+            public void Reset()
+            {
+                iCurrentBucket = -1;
+                kv = null;
+            }
+        }
+
+        #endregion
     }
+
 }

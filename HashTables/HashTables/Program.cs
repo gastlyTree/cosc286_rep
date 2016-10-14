@@ -66,6 +66,7 @@ namespace HashTables
             ht.Add(3514, "Nicholas");
 
             Console.WriteLine(ht.ToString());
+            Console.WriteLine("Number of collisions: " + ht.NumCollisions + "\n");
         }
 
         public static void testGet(A_Hashtable<int, string> ht)
@@ -88,10 +89,19 @@ namespace HashTables
             Console.WriteLine(ht);
         }
 
+        public static void TestEnum(A_Hashtable<int,string> ht)
+        {
+            foreach(string s in ht)
+            {
+                Console.WriteLine(s);
+            }
+        }
+
         static void Main(string[] args)
         {
-            //Linear<int, string> ht = new Linear<int, string>();
-            //testAdd(ht);
+            Chaining<int, string> ht = new Chaining<int, string>();
+            testAdd(ht);
+            TestEnum(ht);
             //testRemove(ht);
 
             //Linear<Person, Person> htLinear = new Linear<Person, Person>();

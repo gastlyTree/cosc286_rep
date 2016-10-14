@@ -6,3 +6,6 @@ G:\Semester1\COSC286\Projects\DataStructures\BinarySearchTree\bin\Debug\DataStru
 G:\Semester1\COSC286\Projects\DataStructures\BinarySearchTree\obj\Debug\BinarySearchTree.csprojResolveAssemblyReference.cache
 G:\Semester1\COSC286\Projects\DataStructures\BinarySearchTree\obj\Debug\BinarySearchTree.exe
 G:\Semester1\COSC286\Projects\DataStructures\BinarySearchTree\obj\Debug\BinarySearchTree.pdb
+G:\git_reps\cosc286_rep\DataStructures\BinarySearchTree\bin\Debug\BinarySearchTree.exe.config
+G:\git_reps\cosc286_rep\DataStructures\BinarySearchTree\obj\Debug\BinarySearchTree.exe
+G:\git_reps\cosc286_rep\DataStructures\BinarySearchTree\obj\Debug\BinarySearchTree.pdb

@@ -18,11 +18,17 @@ namespace BinarySearchTree
             iCount = 0;
         }
 
+        #region Balance
+
         //A virtual balance method that may be overridden in a child class
         protected virtual Node<T> Balance(Node<T> nCurrent)
         {
             return nCurrent;
-        }  
+        }
+
+        #endregion
+
+        #region Add
 
         public override void Add(T data)
         {
@@ -82,10 +88,17 @@ namespace BinarySearchTree
             
         }
 
+        #endregion
+
+        #region Clear
         public override void Clear()
         {
             this.nRoot = null;
         }
+
+        #endregion
+
+        #region Clone
 
         public object Clone()
         {
@@ -107,6 +120,10 @@ namespace BinarySearchTree
 
 
         }
+
+        #endregion
+
+        #region Find
 
         public override T Find(T data)
         {
@@ -136,11 +153,9 @@ namespace BinarySearchTree
             }
         }
 
-        public override IEnumerator<T> GetEnumerator()
-        {
-            return new EnumeratorDepth(this);
-        }
+        #endregion
 
+        #region Height
         public override int Height()
         {
             //Initialize to -1 to indicate a tree with no nodes
@@ -181,6 +196,10 @@ namespace BinarySearchTree
             
                
         }
+
+        #endregion
+
+        #region Iterate
 
         public void IterateBreadth(ProcessData<T> pd)
         {
@@ -250,6 +269,10 @@ namespace BinarySearchTree
             }
         }
 
+        #endregion
+
+        #region Remove
+
         public override bool Remove(T data)
         {
                 bool wasRemoved = false;
@@ -310,6 +333,10 @@ namespace BinarySearchTree
 
         }
 
+        #endregion
+
+        #region Find Largest / Smallest
+
         public T FindSmallest()
         {
             if(nRoot != null)
@@ -368,7 +395,14 @@ namespace BinarySearchTree
             return tData;
         }
 
+        #endregion
+
         #region Enumerator Implementations
+
+        public override IEnumerator<T> GetEnumerator()
+        {
+            return new EnumeratorDepth(this);
+        }
 
         private class EnumeratorBreadth : IEnumerator<T>
         {
