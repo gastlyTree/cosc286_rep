@@ -145,6 +145,8 @@ namespace HashTables
                     //Index into the arraylist to get the key/value pair object
                     //return it's value
                     vReturn = ((keyValue<K,V>)alCurrent[iIndexOfValue]).Value;
+
+                    
                 }
             }
             //if the value was not found
