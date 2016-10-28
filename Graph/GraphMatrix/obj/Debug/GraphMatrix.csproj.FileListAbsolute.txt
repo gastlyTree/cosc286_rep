@@ -1,0 +1,8 @@
+G:\git_reps\cosc286_rep\Graph\GraphMatrix\bin\Debug\GraphMatrix.exe.config
+G:\git_reps\cosc286_rep\Graph\GraphMatrix\bin\Debug\GraphMatrix.exe
+G:\git_reps\cosc286_rep\Graph\GraphMatrix\bin\Debug\GraphMatrix.pdb
+G:\git_reps\cosc286_rep\Graph\GraphMatrix\bin\Debug\Graph.dll
+G:\git_reps\cosc286_rep\Graph\GraphMatrix\bin\Debug\Graph.pdb
+G:\git_reps\cosc286_rep\Graph\GraphMatrix\obj\Debug\GraphMatrix.csprojResolveAssemblyReference.cache
+G:\git_reps\cosc286_rep\Graph\GraphMatrix\obj\Debug\GraphMatrix.exe
+G:\git_reps\cosc286_rep\Graph\GraphMatrix\obj\Debug\GraphMatrix.pdb

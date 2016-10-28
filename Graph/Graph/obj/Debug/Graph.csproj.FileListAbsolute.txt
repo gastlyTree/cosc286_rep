@@ -1,0 +1,5 @@
+G:\git_reps\cosc286_rep\Graph\Graph\bin\Debug\Graph.dll
+G:\git_reps\cosc286_rep\Graph\Graph\bin\Debug\Graph.pdb
+G:\git_reps\cosc286_rep\Graph\Graph\obj\Debug\Graph.csprojResolveAssemblyReference.cache
+G:\git_reps\cosc286_rep\Graph\Graph\obj\Debug\Graph.dll
+G:\git_reps\cosc286_rep\Graph\Graph\obj\Debug\Graph.pdb
