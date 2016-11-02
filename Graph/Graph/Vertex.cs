@@ -42,12 +42,21 @@ namespace Graph
             {
                 return index;
             }
+            set
+            {
+                index = value;
+            }
         }
         #endregion
 
         public int CompareTo(Vertex<T> other)
         {
             return Index.CompareTo(other.index);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.CompareTo((Vertex<T>)obj) == 0;
         }
 
         public override string ToString()

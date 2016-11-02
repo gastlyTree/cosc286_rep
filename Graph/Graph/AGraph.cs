@@ -38,7 +38,8 @@ namespace Graph
         #endregion
 
         #region Properties
-        public int NumEdges
+        //make this property virtual, so it can be overwriten
+        public virtual int NumEdges
         {
             get
             {
@@ -71,12 +72,13 @@ namespace Graph
         //When adding a vertex here, we need to tell the child class to make room
         //for the edges of this vertex.
         public abstract void AddVertexAdjustEdges(Vertex<T> v);
+        public abstract void RemoveVertexAdjustEdges(Vertex<T> v);
 
         protected abstract Edge<T>[] getAllEdges();
 
         #endregion
 
-        public void AddEdge(T from, T to)
+        public virtual void AddEdge(T from, T to)
         {
             // if this is the first edge, set the isWeighted Attribute to false
             if(numEdges == 0)
@@ -94,7 +96,7 @@ namespace Graph
             AddEdge(e);
         }
 
-        public void AddEdge(T from, T to, double weight)
+        public virtual void AddEdge(T from, T to, double weight)
         {
             // if this is the first edge, set the isWeighted Attribute to true
             if (numEdges == 0)
@@ -155,7 +157,32 @@ namespace Graph
 
         public void RemoveVertex(T data)
         {
-            throw new NotImplementedException();
+            /*
+            if vertex exists
+               remove vertex from the vertices list
+               romove data from the dictionary
+               Decrement the indices (in the dictionary and the vertices array)
+                   that are after the removed item in the vertices array
+               adjust the vertex count
+               remove edges pretaining to this vertex 
+            else
+               throw exception
+            */ 
+            
+            Vertex<T> v = GetVertex(data);
+            vertices.Remove(v);
+            revLookUp.Remove(data);
+            for (int i = v.Index; i < vertices.Count; i++)
+            {
+                //update the current vertex object
+                vertices[i].Index--;
+                //update the current data items index in the dictionary
+                revLookUp[vertices[i].Data]--;
+            }
+
+            RemoveVertexAdjustEdges(v);
+
+           
         }
 
         #region The real shit
