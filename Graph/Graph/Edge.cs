@@ -74,7 +74,13 @@ namespace Graph
 
         public int CompareTo(Edge<T> other)
         {
-            int result = Weight.CompareTo(other.Weight);
+            int result = 0;
+            //Don't compare weights unless both edges have a weight
+            if(other.weight != double.PositiveInfinity && this.weight != double.PositiveInfinity)
+            {
+                result = Weight.CompareTo(other.Weight);
+            }
+            
             //What if the edges have the same weight
             if (result == 0)
             {
@@ -85,6 +91,11 @@ namespace Graph
                 }
             }
             return result;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.CompareTo((Edge<T>)obj) == 0;
         }
 
         public override string ToString()
