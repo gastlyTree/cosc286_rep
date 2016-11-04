@@ -137,10 +137,7 @@ namespace GraphMatrix
             numEdges++;
         }
 
-        protected override Edge<T>[] getAllEdges()
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public override string ToString()
         {

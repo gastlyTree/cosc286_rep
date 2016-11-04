@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Graph;
 
 namespace GraphMatrix
 {
@@ -28,6 +29,30 @@ namespace GraphMatrix
                 //call the parent' numbEdges property using "base" keyword
                 return base.NumEdges/2;
             }
+        }
+
+        protected override Edge<T>[] getAllEdges()
+        {
+            List<Edge<T>> edges = new List<Edge<T>>();
+            //visit every row
+            for (int r = 0; r < matrix.GetLength(0); r++)
+            {
+                //visit every column starting at index one greater than the 
+                // the row number. Essentially, we are looking for edges above
+                // the diagonal of the matrix. this prevents duplpicate edges
+                // for udirected graphs
+                for (int c = r+1; c < matrix.GetLength(1); c++)
+                {
+                    //if the current location has an edge
+                    if (matrix[r, c] != null)
+                    {
+                        edges.Add(matrix[r, c]);
+                    }
+                }
+            }
+            //return the edges to an array
+            return edges.ToArray();
+
         }
 
         //since this is undirected, when a user adds an edge, we add it in both directions
