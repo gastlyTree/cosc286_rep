@@ -185,26 +185,276 @@ namespace Graph
            
         }
 
-        #region The real shit
+        #region Traversals
 
         public void BreadthFirstTraversal(T start, VisitorDelegate<T> whatToDo)
         {
-            throw new NotImplementedException();
+            //get the starting vertex
+            Vertex<T> vStart = GetVertex(start);
+            //referance to the current vertex
+            Vertex<T> vCurrent;
+            //Dictionary to track the vertices already visited
+            Dictionary<T, T> visitedVertices = new Dictionary<T, T>();
+            //queue to store unprocessed neughbours
+            Queue<Vertex<T>> verticesRemaining = new Queue<Vertex<T>>();
+
+            verticesRemaining.Enqueue(vStart);
+            while (verticesRemaining.Count != 0)
+            {
+                vCurrent = verticesRemaining.Dequeue();
+                if (!visitedVertices.ContainsKey(vCurrent.Data))
+                {
+                    whatToDo(vCurrent.Data);
+                    visitedVertices.Add(vCurrent.Data, vCurrent.Data);
+
+                    foreach (Vertex<T> v in EnumerateNeighbors(vCurrent.Data))
+                    {
+                        verticesRemaining.Enqueue(v);
+                    }
+                }
+            }
         }
 
         public void DepthFirstTraversal(T start, VisitorDelegate<T> whatToDo)
         {
-            throw new NotImplementedException();
-        }
+            //get the starting vertex
+            Vertex<T> vStart = GetVertex(start);
+            //referance to the current vertex
+            Vertex<T> vCurrent;
+            //Dictionary to track the vertices already visited
+            Dictionary<T, T> visitedVertices = new Dictionary<T, T>();
+            //stack to store unprocessed neughbours
+            Stack<Vertex<T>> verticesRemaining = new Stack<Vertex<T>>();
 
+            /*
+            Push start vertex onto the stack
+            while the stack is not empty
+                current <-- pop top off the stack
+                if current has not been visited yet
+                    process the current vertex (call the delegate)
+                    add current to the visited list
+                    for each neighbour of current
+                        push current neighbour onto the stack 
+             */
+            verticesRemaining.Push(vStart);
+            while (verticesRemaining.Count != 0)
+            {
+                vCurrent = verticesRemaining.Pop();
+                if(!visitedVertices.ContainsKey(vCurrent.Data))
+                {
+                    whatToDo(vCurrent.Data);
+                    visitedVertices.Add(vCurrent.Data, vCurrent.Data);
+                    
+                    foreach (Vertex<T> v in EnumerateNeighbors(vCurrent.Data))
+                    {
+                        verticesRemaining.Push(v);
+                    }
+                }
+            }
+
+        }
+        #endregion
+
+        #region
         public IGraph<T> MinimumSpanningTree()
         {
             throw new NotImplementedException();
         }
+        #endregion
+
+        #region shortest path implementation
 
         public IGraph<T> ShortestWeightedPath(T start, T end)
         {
-            throw new NotImplementedException();
+            //Array of VertexData objects, one for each vertex in the graph
+            VertexData[] vTable = new VertexData[vertices.Count];
+            //Index of the starting point
+            int iStartingIndex = GetVertex(start).Index;
+
+            //Load the vTable with initial data
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                vTable[i] = new VertexData(vertices[i], double.PositiveInfinity,
+                    null);
+            }
+
+            //set the start vertex data object's distance to 0
+            vTable[iStartingIndex].Distance = 0;
+
+            //create the priority queue
+            PriorityQueue pq = new PriorityQueue();
+            //enqueue the start vertex
+            pq.Enqueue(vTable[iStartingIndex]);
+
+            /*
+            While there are still vertices on the priority queue
+                current <-- pq dequeue
+                    if the current is not known
+                        set current to known
+                        for each neighbour (vertex) of current
+                            w <-- get the vertex data object
+                            get the edge object connecting current and w
+                            proposeddistance = current's distance + edge's distance
+                            if w's distance > proposed distance
+                                w's distance <-- proposedDistance
+                                w's previous <-- current
+                                pq enqueue w
+            return BuildGraph(end vertex and vTable)
+             */
+            while(!pq.isEmpty())
+            {
+                //Get the vertexData with the lowest cost
+                VertexData vCurrent = pq.Dequeue();
+                //if this vertex is still unkown, process it
+                if(!vCurrent.Known)
+                {
+                    //just found the shortest path for this vertex
+                    vCurrent.Known = true;
+                    //loop through the neighbours of the current vertex
+                    foreach(Vertex<T> wVertex in EnumerateNeighbors(vCurrent.vVertex.Data))
+                    {
+                        //get the vertexData object for the current neighbour
+                        VertexData w = vTable[wVertex.Index];
+                        //grt the edge from vCurrent to w, we need its weight
+                        Edge<T> eEdge = GetEdge(vCurrent.vVertex.Data, w.vVertex.Data);
+                        //calculate the proposed distance
+                        double dProposed = vCurrent.Distance + eEdge.Weight;
+                        //compare proposed and current
+                        if(w.Distance > dProposed)
+                        {
+                            //we found a shorter distance
+                            w.Distance = dProposed;
+                            //set the previous
+                            w.vPrevious = vCurrent.vVertex;
+                            //enqueue the neighbour
+                            pq.Enqueue(w);
+                        }
+                    }
+                }
+            }
+
+            return BuildGraph(GetVertex(end), vTable);
+        }
+
+        private IGraph<T> BuildGraph(Vertex<T> vEnd, VertexData[] vTable)
+        {
+            //Instantiate an instance of the child type graph using reflection thing
+            IGraph<T> result = (IGraph<T>)GetType().Assembly.
+                CreateInstance(this.GetType().FullName);
+
+            /*
+            Add the end vertex to result 
+            dataLast <-- vTable (location of vEnd)
+            previous <-- previous of dataLast
+            while previous is not null
+                add prevous to result
+                add the edge from last and previous
+                dataLast <-- vTable(location of previous)
+                previous <-- dataLast previous
+            return result
+             */
+            result.AddVertex(vEnd.Data);
+            VertexData dataLast = vTable[vEnd.Index];
+            Vertex<T> previous = dataLast.vPrevious;
+            while(previous != null)
+            {
+                result.AddVertex(previous.Data);
+                result.AddEdge(dataLast.vVertex.Data, previous.Data);
+                dataLast = vTable[previous.Index];
+                previous = dataLast.vPrevious;
+            }
+            return result;
+
+        }
+
+        /// <summary>
+        ///     Provides a priority queue which is essentially a sorted list
+        ///     of values. A call to dequeue will remove a value from the list
+        ///     
+        /// </summary>
+        internal class PriorityQueue
+        {
+            private List<VertexData> sl;
+
+            public PriorityQueue()
+            {
+                sl = new List<VertexData>();
+            }
+
+            internal void Enqueue (VertexData vData)
+            {
+                sl.Add(vData);
+                sl.Sort();
+            }
+
+            internal VertexData Dequeue()
+            {
+                VertexData retVal = sl[0];
+                sl.RemoveAt(0);
+                return retVal;
+            }
+
+            public bool isEmpty()
+            {
+                if (sl.Count > 0 )
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            /// <summary>
+            /// Remove this after testing
+            /// </summary>
+            public void DisplayQueue()
+            {
+                foreach (VertexData v in sl)
+                {
+                    Console.WriteLine(v.ToString());
+                }
+                Console.WriteLine();
+            }
+
+        }
+
+        internal class VertexData : IComparable
+        {
+            public Vertex<T> vVertex;
+            public double Distance;
+            public bool Known;
+            public Vertex<T> vPrevious;
+
+            /// <summary>
+            ///     Constructor
+            /// </summary>
+            /// <param name="vVertex"></param>
+            /// <param name="Distance"></param>
+            /// <param name="vPrevious"></param>
+            /// <param name="Known">Note the default value</param>
+            public VertexData(Vertex<T> vVertex, double Distance, 
+                Vertex<T> vPrevious, bool Known = false)
+            {
+                this.vVertex = vVertex;
+                this.Distance = Distance;
+                this.vPrevious = vPrevious;
+                this.Known = Known;
+            }
+
+            public int CompareTo(object obj)
+            {
+                //Just campare distance component for the sake of the
+                // shortest path algorithm
+                return this.Distance.CompareTo(((VertexData)obj).Distance);
+            }
+
+            public override string ToString()
+            {
+                return "Vertex: " + vVertex + " Distance: " + Distance
+                    + " Previous: " + vPrevious + "Known? " + Known;
+            }
         }
 
         #endregion

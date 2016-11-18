@@ -44,9 +44,60 @@ namespace GraphMatrix
             Console.WriteLine(dGraph);
         }
 
+        static void processData(string data)
+        {
+            Console.WriteLine(data);
+        }
+
+        static void TestTraversals()
+        {
+            UGraphMatrix<string> uGraph = new UGraphMatrix<string>();
+            uGraph.AddVertex("PA");
+            uGraph.AddVertex("Saskatoon");
+            uGraph.AddVertex("Regina");
+            uGraph.AddVertex("Weyburn");
+            uGraph.AddVertex("Estevan");
+            uGraph.AddVertex("MJ");
+            uGraph.AddVertex("Yorkton");
+            uGraph.AddVertex("Swift");
+
+            uGraph.AddEdge("PA", "Saskatoon", 141);
+            uGraph.AddEdge("Saskatoon", "MJ", 220);
+            uGraph.AddEdge("Saskatoon", "Yorkton", 328);
+            uGraph.AddEdge("Yorkton", "Regina", 187);
+            uGraph.AddEdge("Swift", "MJ", 190);
+            uGraph.AddEdge("MJ", "Regina", 72);
+            uGraph.AddEdge("Regina", "Weyburn", 115);
+            uGraph.AddEdge("Weyburn", "Estevan", 86);
+
+            //Console.WriteLine(uGraph);
+            uGraph.DepthFirstTraversal("Saskatoon", processData);
+        }
+
+        static void TestShortestWeightedPath()
+        {
+            UGraphMatrix<string> uGraph = new UGraphMatrix<string>();
+            uGraph.AddVertex("Prince Albert");
+            uGraph.AddVertex("Saskatoon");
+            uGraph.AddVertex("Yorkton");
+            uGraph.AddVertex("Regina");
+            uGraph.AddVertex("Weyburn");
+            uGraph.AddEdge("Prince Albert", "Saskatoon", 2);
+            uGraph.AddEdge("Saskatoon", "Yorkton", 4);
+            uGraph.AddEdge("Saskatoon", "Regina", 1);
+            uGraph.AddEdge("Regina", "Yorkton", 3);
+            uGraph.AddEdge("Regina", "Weyburn", 5);
+            uGraph.AddEdge("Yorkton", "Weyburn", 1);
+
+            Console.WriteLine(uGraph);
+
+            Console.WriteLine(uGraph.ShortestWeightedPath("Weyburn", "Prince Albert"));
+
+        }
+
         static void Main(string[] args)
         {
-            TestDirectedGraph();
+            TestShortestWeightedPath();
         }
     }
 }
