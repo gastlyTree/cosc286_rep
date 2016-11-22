@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Graph;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Graph;
+
 
 namespace GraphMatrix
 {
@@ -13,7 +14,7 @@ namespace GraphMatrix
     /// a single edge from A to B, this class will add an edge from a to b
     /// as well as B to A
     /// </summary>
-    class UGraphMatrix<T> : AGraphMatrix<T> where T : IComparable<T>
+    public class UGraphMatrix<T> : AGraphMatrix<T> where T : IComparable<T>
     {
         public UGraphMatrix()
         {
@@ -31,7 +32,7 @@ namespace GraphMatrix
             }
         }
 
-        protected override Edge<T>[] getAllEdges()
+        public override Edge<T>[] getAllEdges()
         {
             List<Edge<T>> edges = new List<Edge<T>>();
             //visit every row

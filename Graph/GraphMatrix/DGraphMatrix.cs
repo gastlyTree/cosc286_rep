@@ -19,7 +19,7 @@ namespace GraphMatrix
             isDirected = true;
         }
 
-        protected override Edge<T>[] getAllEdges()
+        public override Edge<T>[] getAllEdges()
         {
             List<Edge<T>> edges = new List<Edge<T>>();
             //visit every row

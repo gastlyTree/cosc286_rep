@@ -10,7 +10,7 @@ namespace GraphMatrix
     public abstract class AGraphMatrix<T> : AGraph<T> where T : IComparable<T>
     {
         #region Attributes
-        protected Edge<T>[,] matrix;
+        public Edge<T>[,] matrix;
         #endregion
 
         #region Constructor
@@ -125,7 +125,7 @@ namespace GraphMatrix
             }
         }
 
-        protected override void AddEdge(Edge<T> e)
+        public override void AddEdge(Edge<T> e)
         {
             if(HasEdge(e.From.Data, e.To.Data))
             {

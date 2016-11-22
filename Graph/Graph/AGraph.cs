@@ -10,21 +10,21 @@ namespace Graph
     {
         #region Attributes
         //stores the vertices of the graph
-        protected List<Vertex<T>> vertices;
+        public List<Vertex<T>> vertices;
 
         //A dictionary is a hashtable. we will use it to store a data items index
         //into the vertices list.. this will make it much more efficient to lookup
         // a vertex in the vertices list.
-        protected Dictionary<T, int> revLookUp;
+        public Dictionary<T, int> revLookUp;
 
         //store the number of edges in the graph
-        protected int numEdges;
+        public int numEdges;
 
         //is the graph directed or not
-        protected bool isDirected;
+        public bool isDirected;
 
         //Is the graph weighted
-        protected bool isWeighted;
+        public bool isWeighted;
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace Graph
         #region Abstract Methods
 
         //a helper method that will allow us to implement the other two add edge methods
-        protected abstract void AddEdge(Edge<T> e);
+        public abstract void AddEdge(Edge<T> e);
 
         public abstract IEnumerable<Vertex<T>> EnumerateNeighbors(T data);
 
@@ -74,9 +74,11 @@ namespace Graph
         public abstract void AddVertexAdjustEdges(Vertex<T> v);
         public abstract void RemoveVertexAdjustEdges(Vertex<T> v);
 
-        protected abstract Edge<T>[] getAllEdges();
+        public abstract Edge<T>[] getAllEdges();
 
         #endregion
+
+        #region General Implementation Methods
 
         public virtual void AddEdge(T from, T to)
         {
@@ -185,6 +187,8 @@ namespace Graph
            
         }
 
+        #endregion
+
         #region Traversals
 
         public void BreadthFirstTraversal(T start, VisitorDelegate<T> whatToDo)
@@ -255,7 +259,7 @@ namespace Graph
         }
         #endregion
 
-        #region
+        #region Spanning tree
         public IGraph<T> MinimumSpanningTree()
         {
             throw new NotImplementedException();
@@ -459,6 +463,7 @@ namespace Graph
 
         #endregion
 
+        #region ToString
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
@@ -474,5 +479,6 @@ namespace Graph
             }
             return GetType().Name + "\nVertices: " + result + "\n";
         }
+        #endregion
     }
 }
