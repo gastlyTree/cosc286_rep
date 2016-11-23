@@ -262,7 +262,120 @@ namespace Graph
         #region Spanning tree
         public IGraph<T> MinimumSpanningTree()
         {
-            throw new NotImplementedException();
+            //Each vertex is part of a tree in the forest
+            AGraph<T>[] Forest = new AGraph<T>[vertices.Count];
+            //Get the sorted list of edges from the original graph
+            Edge<T>[] eArray = getAllEdges();
+            //Sort the array, uses the innner class EdgeComparer defined below
+            Array.Sort(eArray, new EdgeComparer());
+
+            int TreeTo = 0; //Index of the TreeTo in t he forest
+            int TreeFrom = 0; //Index of the TreeFrom in the forest
+            int iCurEdge = 0; //Index of the current edge in the edge array
+
+            //Put trees (new graph with a single vertex) in the forest
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                AGraph<T> result = (AGraph<T>)GetType().Assembly.
+                CreateInstance(this.GetType().FullName);
+
+                result.AddVertex(vertices[i].Data);
+
+                Forest[i] = result;
+            }
+
+            //While there is more than one tree in the forest
+            while(Forest.Length > 1)
+            {
+                TreeTo = FindTree(eArray[iCurEdge].To, Forest);
+                TreeFrom = FindTree(eArray[iCurEdge].From, Forest);
+
+                Forest[TreeTo].MergeTrees(Forest[TreeFrom]);
+                Forest = Timber(TreeFrom, Forest);
+            }
+
+            //return the remaining graph in the forest
+            return Forest[0];
+        }
+
+        /// <summary>
+        /// Finds the location of a vertex in the forest
+        /// </summary>
+        /// <param name="v">Vertex to find in the forest</param>
+        /// <param name="Forest">An array of graphs (trees)</param>
+        /// <returns>Location of the verticies' tree in the forest, throw an exception if not found</returns>
+        private int FindTree(Vertex<T> v, AGraph<T>[] Forest)
+        {
+            int result = -1;
+            int counter = 0;
+            bool found = false;
+            while(counter<Forest.Length && found == false)
+            {
+                if (Forest[counter].HasVertex(v.Data))
+                {
+                    result = counter;
+                    found = true;
+                }
+                counter++;
+            }
+            
+            if(result == -1)
+            {
+                throw new ApplicationException("The tree does not exist");
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Merge the calling tree with the passed in tree
+        /// </summary>
+        /// <param name="TreeFrom">Tree to merge into the calling tree "this"</param>
+        private void MergeTrees(AGraph<T> TreeFrom)
+        {
+            for (int i = 0; i < TreeFrom.vertices.Count; i++)
+            {
+                this.AddVertex(TreeFrom.vertices[i].Data);
+                
+            }
+            foreach (Edge<T> edge in TreeFrom.getAllEdges())
+            {
+                this.AddEdge(edge.From.Data, edge.To.Data, edge.Weight);
+            }
+
+        }
+
+        /// <summary>
+        /// Remove a tree (graph) from the forest
+        /// </summary>
+        /// <param name="iTree">Index of the tree to remove</param>
+        /// <param name="originalForest">The original forest</param>
+        /// <returns>A new forest, with desired graph removed</returns>
+        private AGraph<T>[] Timber(int iTree, AGraph<T>[] originalForest)
+        {
+            AGraph<T>[] NewForest = new AGraph<T>[originalForest.Length];
+            for (int i = 0; i < iTree; i++)
+            {
+                NewForest[i] = originalForest[i];
+            }
+            for (int i = iTree + 1; i < originalForest.Length; i++)
+            {
+                
+                NewForest[i - 1] = originalForest[i];
+                
+            }
+            return NewForest;
+        }
+
+        /// <summary>
+        /// Used to compare to Edge<t> objects
+        /// Can be used by the Array.Sort method
+        /// </summary>
+        private class EdgeComparer : IComparer<Edge<T>>
+        {
+            public int Compare(Edge<T> x, Edge<T> y)
+            {
+                return x.CompareTo(y);
+            }
         }
         #endregion
 

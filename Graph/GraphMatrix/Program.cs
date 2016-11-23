@@ -95,9 +95,37 @@ namespace GraphMatrix
 
         }
 
+        static void testMinimumSpanningTree()
+        {
+            UGraphMatrix<string> uGraph = new UGraphMatrix<string>();
+            uGraph.AddVertex("A");
+            uGraph.AddVertex("B");
+            uGraph.AddVertex("C");
+            uGraph.AddVertex("D");
+            uGraph.AddVertex("E");
+            uGraph.AddVertex("F");
+            uGraph.AddVertex("G");
+            uGraph.AddVertex("H");
+
+            uGraph.AddEdge("A", "B", 28);
+            uGraph.AddEdge("B", "H", 13);
+            uGraph.AddEdge("A", "F", 10);
+            uGraph.AddEdge("F", "E", 25);
+            uGraph.AddEdge("E", "G", 24);
+            uGraph.AddEdge("E", "D", 22);
+            uGraph.AddEdge("G", "D", 18);
+            uGraph.AddEdge("G", "B", 14);
+            uGraph.AddEdge("D", "C", 12);
+            uGraph.AddEdge("B", "C", 16);
+
+            Console.WriteLine(uGraph);
+
+            Console.WriteLine(uGraph.MinimumSpanningTree());
+        }
+
         static void Main(string[] args)
         {
-            TestShortestWeightedPath();
+            testMinimumSpanningTree();
         }
     }
 }
