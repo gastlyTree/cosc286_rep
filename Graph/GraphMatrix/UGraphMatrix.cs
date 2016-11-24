@@ -59,7 +59,8 @@ namespace GraphMatrix
         //since this is undirected, when a user adds an edge, we add it in both directions
         public override void AddEdge(T from, T to)
         {
-            base.AddEdge(from, to);
+            base.AddEdge(from, to, double.PositiveInfinity);
+            base.AddEdge(to, from, double.PositiveInfinity);
         }
 
         public override void AddEdge(T from, T to, double weight)

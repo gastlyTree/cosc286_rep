@@ -292,6 +292,7 @@ namespace Graph
 
                 Forest[TreeTo].MergeTrees(Forest[TreeFrom]);
                 Forest = Timber(TreeFrom, Forest);
+                iCurEdge++;
             }
 
             //return the remaining graph in the forest
@@ -332,11 +333,11 @@ namespace Graph
         /// <param name="TreeFrom">Tree to merge into the calling tree "this"</param>
         private void MergeTrees(AGraph<T> TreeFrom)
         {
-            for (int i = 0; i < TreeFrom.vertices.Count; i++)
+            foreach (var v in TreeFrom.vertices)
             {
-                this.AddVertex(TreeFrom.vertices[i].Data);
-                
+                this.AddVertex(v.Data);
             }
+            
             foreach (Edge<T> edge in TreeFrom.getAllEdges())
             {
                 this.AddEdge(edge.From.Data, edge.To.Data, edge.Weight);
@@ -352,16 +353,14 @@ namespace Graph
         /// <returns>A new forest, with desired graph removed</returns>
         private AGraph<T>[] Timber(int iTree, AGraph<T>[] originalForest)
         {
-            AGraph<T>[] NewForest = new AGraph<T>[originalForest.Length];
+            AGraph<T>[] NewForest = new AGraph<T>[originalForest.Length - 1];
             for (int i = 0; i < iTree; i++)
             {
                 NewForest[i] = originalForest[i];
             }
             for (int i = iTree + 1; i < originalForest.Length; i++)
             {
-                
                 NewForest[i - 1] = originalForest[i];
-                
             }
             return NewForest;
         }
