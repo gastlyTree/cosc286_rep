@@ -118,9 +118,42 @@ namespace GraphMatrix
             uGraph.AddEdge("D", "C", 12);
             uGraph.AddEdge("B", "C", 16);
 
-            Console.WriteLine(uGraph);
+            //Console.WriteLine(uGraph);
 
             Console.WriteLine(uGraph.MinimumSpanningTree());
+        }
+
+        static void TestMinSpantree()
+        {
+            UGraphMatrix<string> uGraph = new UGraphMatrix<string>();
+            uGraph.AddVertex("PA");
+            uGraph.AddVertex("SC");
+            uGraph.AddEdge("PA", "SC", 4);
+
+            uGraph.AddVertex("MH");
+            uGraph.AddEdge("MH", "SC", 1);
+
+            uGraph.AddVertex("S");
+            uGraph.AddEdge("MH", "S", 3);
+
+            uGraph.AddEdge("S", "PA", 3);
+
+            uGraph.AddVertex("MJ");
+
+            uGraph.AddEdge("S", "MJ", 3);
+            uGraph.AddEdge("SC", "MJ", 2);
+
+            uGraph.AddVertex("Y");
+            uGraph.AddEdge("S", "Y", 5);
+            uGraph.AddVertex("R");
+            uGraph.AddEdge("R", "Y", 3);
+            uGraph.AddEdge("R", "MJ", 4);
+
+            uGraph.AddVertex("W");
+            uGraph.AddEdge("W", "R", 2);
+            Console.WriteLine(uGraph.MinimumSpanningTree());
+
+
         }
 
         static void Main(string[] args)

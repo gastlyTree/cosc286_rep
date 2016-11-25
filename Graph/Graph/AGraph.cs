@@ -276,23 +276,29 @@ namespace Graph
             //Put trees (new graph with a single vertex) in the forest
             for (int i = 0; i < vertices.Count; i++)
             {
-                AGraph<T> result = (AGraph<T>)GetType().Assembly.
+                AGraph<T> newGraph = (AGraph<T>)GetType().Assembly.
                 CreateInstance(this.GetType().FullName);
 
-                result.AddVertex(vertices[i].Data);
+                newGraph.AddVertex(vertices[i].Data);
 
-                Forest[i] = result;
+                Forest[i] = newGraph;
             }
 
             //While there is more than one tree in the forest
             while(Forest.Length > 1)
             {
-                TreeTo = FindTree(eArray[iCurEdge].To, Forest);
-                TreeFrom = FindTree(eArray[iCurEdge].From, Forest);
+                Edge<T> e = eArray[iCurEdge++];
+                TreeTo = FindTree(e.To, Forest);
+                TreeFrom = FindTree(e.From, Forest);
 
-                Forest[TreeTo].MergeTrees(Forest[TreeFrom]);
-                Forest = Timber(TreeFrom, Forest);
-                iCurEdge++;
+                if (TreeTo != TreeFrom)
+                {
+                    Forest[TreeTo].MergeTrees(Forest[TreeFrom]);
+                    //add the joining edge to TreeTo
+                    Forest[TreeTo].AddEdge(e.From.Data, e.To.Data, e.Weight);
+                    //cut treeFrom from the forest
+                    Forest = Timber(TreeFrom, Forest);
+                }
             }
 
             //return the remaining graph in the forest
@@ -307,24 +313,15 @@ namespace Graph
         /// <returns>Location of the verticies' tree in the forest, throw an exception if not found</returns>
         private int FindTree(Vertex<T> v, AGraph<T>[] Forest)
         {
-            int result = -1;
             int counter = 0;
-            bool found = false;
-            while(counter<Forest.Length && found == false)
-            {
-                if (Forest[counter].HasVertex(v.Data))
-                {
-                    result = counter;
-                    found = true;
-                }
-                counter++;
-            }
+
+            while (!Forest[counter].HasVertex(v.Data) && ++counter < Forest.Length ) ;
             
-            if(result == -1)
+            if(counter == Forest.Length)
             {
                 throw new ApplicationException("The tree does not exist");
             }
-            return result;
+            return counter;
         }
 
         /// <summary>
@@ -333,7 +330,7 @@ namespace Graph
         /// <param name="TreeFrom">Tree to merge into the calling tree "this"</param>
         private void MergeTrees(AGraph<T> TreeFrom)
         {
-            foreach (var v in TreeFrom.vertices)
+            foreach (Vertex<T> v in TreeFrom.EnumerateVertices())
             {
                 this.AddVertex(v.Data);
             }
@@ -342,7 +339,6 @@ namespace Graph
             {
                 this.AddEdge(edge.From.Data, edge.To.Data, edge.Weight);
             }
-
         }
 
         /// <summary>
