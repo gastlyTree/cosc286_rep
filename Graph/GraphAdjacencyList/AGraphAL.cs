@@ -90,9 +90,9 @@ namespace GraphAdjacencyList
             throw new NotImplementedException();
         }
 
-        protected override void AddEdge(Edge<T> e)
+        public override void AddEdge(Edge<T> e)
         {
-            //if the edge already exists, trow an exception
+            //if the edge already exists, throw an exception
             if(HasEdge(e.From.Data, e.To.Data))
             {
                 throw new ApplicationException("Edge already exists");
@@ -105,7 +105,7 @@ namespace GraphAdjacencyList
 
         }
 
-        protected override Edge<T>[] getAllEdges()
+        public override Edge<T>[] getAllEdges()
         {
             throw new NotImplementedException();
         }
