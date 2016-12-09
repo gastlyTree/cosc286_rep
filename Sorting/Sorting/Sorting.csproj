@@ -50,6 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuickSorter.cs" />
     <Compile Include="QuickSorterMedianOfThree.cs" />
+    <Compile Include="StableDemo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

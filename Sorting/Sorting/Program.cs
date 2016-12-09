@@ -52,9 +52,26 @@ namespace Sorting
             TestSorter(new HeapSorter<int>(array));
         }
 
+        private static void DemoStableSort()
+        {
+            StableDemo[] array = new StableDemo[10];
+            Random r = new Random(42);
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = new StableDemo(r.Next(array.Length), i);
+            }
+            ASorter<StableDemo> sorter = new InsertionSorter<StableDemo>(array);
+            //ASorter<StableDemo> sorter = new QuickSorter<StableDemo>(array);
+            //ASorter<StableDemo> sorter = new QuickSorterMedian<StableDemo>(array);
+            //ASorter<StableDemo> sorter = new HeapSorter<StableDemo>(array);
+            Console.WriteLine("Before sort:\n" + sorter);
+            sorter.Sort();
+            Console.WriteLine("After sort:\n" + sorter);
+        }
+
         static void Main(string[] args)
         {
-            SorterTest();
+            DemoStableSort();
         }
     }
 }
